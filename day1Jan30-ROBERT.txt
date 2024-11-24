@@ -262,6 +262,33 @@ config t
 	 ip add 42.0.0.1 255.255.255.255
  end
 
+
+!OSPF routing
+!@edge
+conf t
+router ospf 1
+router-id 42.0.0.1
+network 200.0.0.0 0.0.0.255 area 0
+network 10.42.42.0 0.0.0.255 area 0
+network 42.0.0.1 0.0.0.0 area 0
+int gi 0/0/0
+ip ospf network point-to-point
+end
+
+@coreBaba
+conf t
+router ospf 1
+router-id 10.42.42.4
+network 10.42.0.0 0.0.255.255 area 0
+int gi 0/1
+ip ospf network point-to-point
+
+@cucm
+conf t
+router ospf 1
+router-id 10.42.100.8
+network 10.42.100.0 0.0.0.255 area 0
+end
  
  !!! EDGE route NOT dikit to ClassMate:
  ip route 10.11.0.0 255.255.0.0 200.0.0.11
